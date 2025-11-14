@@ -2,20 +2,24 @@
 
 class Rating {
 private:
-	int max;
-	int min;
-	int value;
+	int value = -1;
 
 public:
+	Rating() {
 
-	Rating(int max, int min, int value) {
-		this->max = max;
-		this->min = min;
+	}
+
+	Rating(int value) {
 		this->value = value;
 	}
 
 	friend std::ostream& operator<<(std::ostream& os, Rating& r) {
-		os << r.value;
+		if (r.value == -1) {
+			os << "No rating!"
+		} else {
+			os << r.value;
+		}
+		
 		return os;
 	}
 
