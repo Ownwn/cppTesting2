@@ -15,7 +15,7 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& os, Rating& r) {
 		if (r.value == -1) {
-			os << "No rating!"
+			os << "No rating!";
 		} else {
 			os << r.value;
 		}
