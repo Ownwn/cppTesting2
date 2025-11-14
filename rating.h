@@ -21,9 +21,9 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& os, const Rating& r) {
 		if (r.value == -1) {
-			os << "No rating!";
+			os << "No rating!\n";
 		} else {
-			os << r.value << " " << r.comments;
+			os << r.value << " " << r.comments << '\n';
 		}
 		
 		return os;
