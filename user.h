@@ -32,7 +32,7 @@ public:
 
 
 	~User() {
-		std::cout << "user dead\n";
+		// std::cout << "user dead\n";
 	}
 
 
