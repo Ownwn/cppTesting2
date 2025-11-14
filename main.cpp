@@ -8,6 +8,6 @@
 int main() {
     std::cout << "Hello, World !" << hey() << std::endl;
     User a(10);
-    std::cout << "user has rating " << a.get_ratings().at(0).to_string() << '\n';
+    std::cout << "user has rating " << a.get_ratings().at(0) << '\n';
     return 0;
 }
