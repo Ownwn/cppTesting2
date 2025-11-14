@@ -3,6 +3,7 @@
 class Rating {
 private:
 	int value = -1;
+	std::string comments = "";
 
 public:
 	Rating() {
@@ -13,11 +14,16 @@ public:
 		this->value = value;
 	}
 
+	Rating(std::string comments, int value) {
+		this->value = value;
+		this->comments = comments;
+	}
+
 	friend std::ostream& operator<<(std::ostream& os, const Rating& r) {
 		if (r.value == -1) {
 			os << "No rating!";
 		} else {
-			os << r.value;
+			os << r.value << " " << r.comments;
 		}
 		
 		return os;
