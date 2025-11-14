@@ -7,7 +7,12 @@
 
 int main() {
     std::cout << "Hello, World !" << hey() << std::endl;
-    User a(10);
-    std::cout << "user has rating " << a.get_ratings().at(0) << '\n';
+    User magnus("magnu");
+    if (magnus.has_ratings()) {
+        std::cout << magnus << " has rating " << magnus.get_ratings().at(0) << '\n';
+    } else {
+        std::cout << magnus << " has no ratings :(\n";
+    }
+    
     return 0;
 }
