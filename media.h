@@ -14,4 +14,9 @@ class Media{
         virtual long getDuration() = 0;
         virtual Rating getRating() = 0;
         virtual std::vector<std::string> getGenres() = 0;
+
+        void setRating(int i){
+            if(rating >10 || rating <0){return;}
+            rating = i;
+        }
 };
