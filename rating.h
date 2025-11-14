@@ -13,7 +13,7 @@ public:
 		this->value = value;
 	}
 
-	friend std::ostream& operator<<(std::ostream& os, Rating& r) {
+	friend std::ostream& operator<<(std::ostream& os, const Rating& r) {
 		if (r.value == -1) {
 			os << "No rating!";
 		} else {

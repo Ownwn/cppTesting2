@@ -6,7 +6,7 @@ class Media{
     protected:
         std::string name;
         long duration;
-        Rating rating = Rating();
+        Rating rating;
         std::vector<std::string> genres;
     
     public:
