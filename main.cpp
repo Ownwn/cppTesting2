@@ -4,6 +4,7 @@
 #include <vector>
 #include <unordered_set>
 #include "user.h"
+#include "song.h"
 
 int main() {
     std::cout << "Hello, World !" << hey() << std::endl;

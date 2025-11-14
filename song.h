@@ -5,10 +5,9 @@
 class Song : public Media{
 
     public:
-        Song(std::string name, long duration, Rating rating, std::vector<std::string> genres){
+        Song(std::string name, long duration, std::vector<std::string> genres){
             this->name = name;
             this->duration = duration;
-            this->rating = rating;
             this->genres = genres;
         }
         
@@ -29,4 +28,4 @@ class Song : public Media{
         }
         
 
-}
+};
