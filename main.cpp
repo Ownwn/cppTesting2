@@ -4,16 +4,25 @@
 #include <unordered_set>
 #include "user.h"
 #include "song.h"
+#include "imgui/imgui.h"
+#include "imgui/backends/imgui_impl_glfw.h"
+#include "imgui/backends/imgui_impl_opengl3.h"
+#include "menu_state.h"
+#include <GLFW/glfw3.h>
+#include "menu.h"
 
-std::vector dummy_names = {"frank ocean", "marco", "the pope", "settlers of catan enjoyer"};
+std::vector<std::string> dummy_names = {"frank ocean", "marco", "the pope", "settlers of catan enjoyer"};
 
-std::vector song_names = {"minions", ""}
-
+std::vector song_names = {"minions", ""};
+MenuState* MenuState::menu_state = new MainMenu();
+MenuState* MenuState::next_state = nullptr;
+Menu menu;
 User create_dummy_user() {
     int index = rand() % dummy_names.size();
     User user(dummy_names[index]);
     return user;
 }
+
 
 int main() {
     User magnus("magnu");
@@ -23,6 +32,8 @@ int main() {
         std::cout << magnus << " has no ratings :(\n";
     }
 
+    menu.draw_gui();
+
     std::vector<std::string> v;
     Song song("chungus humungus", 600, v);
     std::cout << song.getRating();
@@ -30,5 +41,6 @@ int main() {
     User dummy = create_dummy_user();
     std::cout << dummy << " is dummy\n";
     
+
     return 0;
 }
