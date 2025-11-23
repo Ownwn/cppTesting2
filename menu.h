@@ -22,9 +22,7 @@ class Menu{
                 MenuState::menu_state->draw();
 
                 if(MenuState::next_state){
-                    delete MenuState::menu_state;
-                    MenuState::menu_state = MenuState::next_state;
-                    MenuState::next_state = nullptr;
+                    MenuState::menu_state = std::move(MenuState::next_state);
                 }
                 ImGui::Render();
                 glViewport(0,0,window_size_x,window_size_y);

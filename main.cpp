@@ -14,8 +14,8 @@
 std::vector<std::string> dummy_names = {"frank ocean", "marco", "the pope", "settlers of catan enjoyer"};
 
 std::vector song_names = {"minions", ""};
-MenuState* MenuState::menu_state = new MainMenu();
-MenuState* MenuState::next_state = nullptr;
+std::unique_ptr<MenuState> MenuState::menu_state = std::make_unique<MainMenu>();
+std::unique_ptr<MenuState>  MenuState::next_state;
 Menu menu;
 User create_dummy_user() {
     int index = rand() % dummy_names.size();
