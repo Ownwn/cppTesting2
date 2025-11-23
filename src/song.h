@@ -1,11 +1,12 @@
+#pragma once
 #include "media.h"
 #include <string>
 #include <vector>
 
-class Movie : public Media{
+class Song : public Media{
 
     public:
-        Movie(std::string name, long duration, std::vector<std::string> genres){
+        Song(std::string name, long duration, std::vector<std::string> genres){
             this->name = name;
             this->duration = duration;
             this->genres = genres;

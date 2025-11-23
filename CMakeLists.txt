@@ -7,7 +7,7 @@ file(GLOB IMGUI_SOURCES imgui/*.cpp)
 file(GLOB IMGUI_BACKEND_SOURCES imgui/backends/*.cpp)
 
 add_executable(cppTesting2
-        main.cpp
+        src/main.cpp
         ${IMGUI_SOURCES}
         ${IMGUI_BACKEND_SOURCES}
 )
