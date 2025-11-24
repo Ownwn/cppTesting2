@@ -24,10 +24,9 @@ class MenuState{
            // delete next_state;
         }
         template<typename T>
-        static void change_state(std::unique_ptr<T> t) {
+        static void change_state() {
             static_assert(std::is_base_of_v<MenuState, T>);
-            //next_state = std::make_unique<T>();
-            current_state = std::move(t);
+            current_state = std::move(std::make_unique<T>());
         }
 
     friend class Menu;
@@ -62,7 +61,7 @@ class InfoMenu : public MenuState{
             ImGui::Spacing();
 
             if(ImGui::Button("and back again")){
-                change_state<MainMenu>(std::make_unique<MainMenu>());
+                change_state<MainMenu>();
             }
 
             ImGui::End();
@@ -82,7 +81,7 @@ class MainMenu : public MenuState{
             }
             ImGui::BeginChild("Inside da box", ImVec2(200,200),1,1);
             if(ImGui::Button("View user summary")){
-                change_state<InfoMenu>(std::make_unique<InfoMenu>());
+                change_state<InfoMenu>();
             }
             for (int i = 0; i < 8; ++i) {
                 ImGui::Spacing();
