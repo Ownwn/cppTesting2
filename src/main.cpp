@@ -13,8 +13,7 @@
 #include "data_manager.h"
 
 
-std::unique_ptr<MenuState> MenuState::menu_state = std::make_unique<MainMenu>();
-std::unique_ptr<MenuState>  MenuState::next_state;
+std::shared_ptr<MenuState> MenuState::current_state = std::make_unique<MainMenu>();
 Menu menu;
 static DataManager dataManager;
 

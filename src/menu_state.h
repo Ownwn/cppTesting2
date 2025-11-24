@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <sstream>
+#include <format>
 
 #include "../imgui/imgui.h"
 #include "../imgui/backends/imgui_impl_glfw.h"
@@ -23,15 +24,17 @@ class MenuState{
            // delete next_state;
         }
         template<typename T>
-        static void change_state() {
+        static void change_state(std::unique_ptr<T> t) {
             static_assert(std::is_base_of_v<MenuState, T>);
-            next_state = std::make_unique<T>();
+            //next_state = std::make_unique<T>();
+            current_state = std::move(t);
         }
 
     friend class Menu;
 private:
     static std::unique_ptr<MenuState> menu_state;
     static std::unique_ptr<MenuState> next_state;
+    static std::shared_ptr<MenuState> current_state;
 
 };
 
@@ -59,7 +62,7 @@ class InfoMenu : public MenuState{
             ImGui::Spacing();
 
             if(ImGui::Button("and back again")){
-                change_state<MainMenu>();
+                change_state<MainMenu>(std::make_unique<MainMenu>());
             }
 
             ImGui::End();
@@ -79,7 +82,7 @@ class MainMenu : public MenuState{
             }
             ImGui::BeginChild("Inside da box", ImVec2(200,200),1,1);
             if(ImGui::Button("View user summary")){
-                change_state<InfoMenu>();
+                change_state<InfoMenu>(std::make_unique<InfoMenu>());
             }
             for (int i = 0; i < 8; ++i) {
                 ImGui::Spacing();
