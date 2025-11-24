@@ -19,11 +19,8 @@ class Menu{
                 ImGui_ImplGlfw_NewFrame();
                 ImGui::NewFrame();
 
-                MenuState::menu_state->draw();
+                MenuState::current_state->draw();
 
-                if(MenuState::next_state){
-                    MenuState::menu_state = std::move(MenuState::next_state);
-                }
                 ImGui::Render();
                 glViewport(0,0,window_size_x,window_size_y);
                 glClear(GL_COLOR_BUFFER_BIT);
