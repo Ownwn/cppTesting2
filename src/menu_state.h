@@ -3,6 +3,10 @@
 #include <memory>
 #include <sstream>
 #include <format>
+#include <ranges>
+#include <vector>
+#include <string>
+#include <iostream>
 
 #include "../imgui/imgui.h"
 #include "../imgui/backends/imgui_impl_glfw.h"
@@ -15,10 +19,13 @@
 
 class InfoMenu;
 class MainMenu;
+class LogInMenu;
+class ProfileMenu;
 
 class MenuState{
     public:
         virtual void draw() = 0;
+        bool logged_in = false;
         ~MenuState(){
            // delete menu_state;
            // delete next_state;
@@ -27,6 +34,11 @@ class MenuState{
         static void change_state() {
             static_assert(std::is_base_of_v<MenuState, T>);
             current_state = std::move(std::make_unique<T>());
+        }
+        static void create_spaces(int numspaces){
+            for (int i = 0; i < numspaces; ++i) {
+                ImGui::Spacing();
+            }
         }
 
     friend class Menu;
@@ -43,10 +55,7 @@ class InfoMenu : public MenuState{
         void draw() override{
             ImGui::Begin("Info");
             ImGui::Text("User info");
-            ImGui::Spacing();
-            ImGui::Spacing();
-            ImGui::Spacing();
-            ImGui::Spacing();
+            create_spaces(4);
 
             ImGui::Text(std::format("There are {} users", DataManager::users.size()).c_str());
 
@@ -56,9 +65,7 @@ class InfoMenu : public MenuState{
                 ImGui::Text(formatted.str().c_str());
             }
 
-            ImGui::Spacing();
-            ImGui::Spacing();
-            ImGui::Spacing();
+            create_spaces(3);
 
             if(ImGui::Button("and back again")){
                 change_state<MainMenu>();
@@ -76,18 +83,19 @@ class MainMenu : public MenuState{
         void draw() override{
             ImGui::Begin("Info");
             ImGui::SetCursorPos(ImVec2(0,0));
-            for (int i = 0; i < 7; ++i) {
-                ImGui::Spacing();
-            }
+            create_spaces(7);
             ImGui::BeginChild("Inside da box", ImVec2(200,200),1,1);
             if(ImGui::Button("View user summary")){
                 change_state<InfoMenu>();
             }
-            for (int i = 0; i < 8; ++i) {
-                ImGui::Spacing();
-            }
+            create_spaces(8);
             if (ImGui::Button("Second button")) {
                 std::cout << "Second button pressed\n";
+            }
+
+            if(ImGui::Button("View User Database")){
+                if(!logged_in){change_state<LogInMenu>();}
+                change_state<ProfileMenu>();
             }
             ImGui::EndChild();
             ImGui::End();
@@ -95,5 +103,33 @@ class MainMenu : public MenuState{
         }
 
 
+};
+
+class LogInMenu : public MenuState{
+    public:
+        void draw() override{
+            if(ImGui::InputText("Input Username",username_input_buffer,IM_ARRAYSIZE(username_input_buffer))){
+                
+            }
+            create_spaces(10);
+            if(ImGui::InputText("Input Password",password_input_buffer,IM_ARRAYSIZE(password_input_buffer),true)){
+                for(User user : DataManager::users){
+                    if(username_input_buffer == user.get_name() && password_input_buffer == user.get_password()){
+                        change_state<ProfileMenu>();
+                        logged_in = true;
+                    }
+                }
+            }
+        }
+    private:
+        char username_input_buffer[28] = "";
+        char password_input_buffer[28] = "";
+};  
+
+class ProfileMenu : public MenuState{
+    public:
+        void draw() override{
+
+        }
 };
 

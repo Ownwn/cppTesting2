@@ -7,14 +7,23 @@ class User {
 protected:
 	std::unordered_map<int, Rating> ratings {};
 	std::string_view username;
+	std::string_view password;
 public:
 	User(const std::string_view name) {
 		username = name;
 		
 	}
+	User(const std::string_view name, std::string_view passwrd){
+		username = name;
+		password = passwrd;
+	}
 
 	std::string_view get_name() const {
 		return username;
+	}
+
+	std::string_view get_password() const {
+		return password;
 	}
 	User(const std::string_view name, std::unordered_map<int, Rating> ratings) {
 		username = name;

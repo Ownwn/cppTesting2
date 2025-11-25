@@ -6,7 +6,7 @@
 #include "user.h"
 
 constexpr std::array<std::string_view, 4> dummy_names = {"frank ocean", "marco", "the pope", "settlers of catan enjoyer"};
-
+const std::string_view dummy_password = "password";
 constexpr std::array<std::string_view, 2> song_names = {"minions", "gangnam style"};
 
 class DataManager {
@@ -32,5 +32,6 @@ public:
         for (int i = 0; i < 10; ++i) {
             users.push_back(create_dummy_user());
         }
+        users.push_back(User("admin",dummy_password));
     }
 };
