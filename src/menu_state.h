@@ -95,7 +95,7 @@ class MainMenu : public MenuState{
 
             if(ImGui::Button("View User Database")){
                 if(!logged_in){change_state<LogInMenu>();}
-                change_state<ProfileMenu>();
+                else {change_state<ProfileMenu>();}
             }
             ImGui::EndChild();
             ImGui::End();
