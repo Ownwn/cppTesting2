@@ -6,25 +6,21 @@
 class Song : public Media{
 
     public:
-        Song(std::string name, long duration, std::vector<std::string> genres){
+        Song(const std::string &name, const long duration, const std::vector<std::string> &genres){
             this->name = name;
             this->duration = duration;
             this->genres = genres;
         }
         
-        std::string getName(){
+        std::string getName() override {
             return name;
         }
 
-        long getDuration(){
+        long getDuration() override {
             return duration;
         }
 
-        Rating getRating(){
-            return rating;
-        }
-
-        std::vector<std::string> getGenres(){
+        std::vector<std::string> getGenres() override {
             return genres;
         }
         

@@ -36,7 +36,7 @@ class MenuState{
             static_assert(std::is_base_of_v<MenuState, T>);
             current_state = std::move(std::make_unique<T>());
         }
-        static void create_spaces(int numspaces){
+        static void create_spaces(const int &numspaces = 1){
             for (int i = 0; i < numspaces; ++i) {
                 ImGui::Spacing();
             }
@@ -58,12 +58,10 @@ class InfoMenu : public MenuState{
             ImGui::Text("User info");
             create_spaces(4);
 
-            ImGui::Text(std::format("There are {} users", DataManager::users.size()).c_str());
+            ImGui::Text("There are %lu users", DataManager::users.size());
 
-            for (User u : DataManager::users) {
-                std::ostringstream formatted;
-                formatted << "Average rating of " << u.get_name() << ": " << u.average_rating();
-                ImGui::Text(formatted.str().c_str());
+            for (User& u : DataManager::users) {
+                ImGui::Text("Average rating of %s: %2.1f", u.get_name().data(), u.average_rating());
             }
 
             create_spaces(3);
@@ -94,7 +92,7 @@ class MainMenu : public MenuState{
                 std::cout << "Second button pressed\n";
             }
 
-            if(ImGui::Button("View User Database")){
+            if(ImGui::Button("View profile")){
                 if (current_user.has_value()) {
                     change_state<ProfileMenu>();
                 } else {
@@ -135,9 +133,27 @@ class ProfileMenu : public MenuState{
         void draw() override{
             const auto current_user_description = current_user.transform([](const User &u) {
                 return u.get_name();
-            }).value_or("unknown user! How are you logged in?");
+            }).value_or("");
 
-            ImGui::Text("Logged in as %s", std::string(current_user_description).c_str());
+            if (!current_user.has_value()) {
+                return;
+            }
+
+            ImGui::Text("Logged in as %s", current_user_description.data());
+
+            create_spaces(3);
+
+            const auto& ratings = current_user->get_ratings();
+
+            ImGui::Text("You have rated %lu media pieces", ratings.size());
+            create_spaces();
+
+            for (auto& r : ratings) {
+                create_spaces();
+                auto media_name = r.getMedia()->getName();
+                ImGui::Text("Name: %s. Your rating: %d", media_name.data(), r.getValue());
+            }
+
         }
 };
 

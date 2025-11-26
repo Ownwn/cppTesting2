@@ -29,11 +29,5 @@ int main() {
 
     menu.draw_gui();
 
-    std::vector<std::string> v;
-    Song song("chungus humungus", 600, v);
-    std::cout << song.getRating();
-
-
-
     return 0;
 }

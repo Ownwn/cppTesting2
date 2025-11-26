@@ -1,26 +1,34 @@
 #pragma once
 #include <string>
 
+#include "media.h"
+
+class Media;
+
 class Rating {
 private:
 	int value = -1;
 	std::string comments = "";
+	std::shared_ptr<Media> media;
 
 public:
-	Rating() {
-
-	}
 
 	int getValue() const {
 		return value;
 	}
 
-	Rating(int value) {
-		this->value = value;
+	const std::shared_ptr<Media>& getMedia() const {
+		return media;
 	}
 
-	Rating(std::string comments, int value) {
+	Rating(const int& value, const std::shared_ptr<Media> &m) {
 		this->value = value;
+		this->media = m;
+	}
+
+	Rating(const std::string &comments, const int& value, const std::shared_ptr<Media> &m) {
+		this->value = value;
+		this->media = m;
 		this->comments = comments;
 	}
 

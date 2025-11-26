@@ -17,14 +17,18 @@ public:
         int index = rand() % dummy_names.size();
         User user((dummy_names[index].data()));
         for (int i = 0; i < 5; ++i) {
-            user.add_rating(i, create_dummy_rating());
+            user.add_rating(create_dummy_rating());
         }
         return user;
     }
 
-    Rating create_dummy_rating() {
-        Rating r(std::rand() % 10);
+    Rating create_dummy_rating() const {
+        Rating r(std::rand() % 10, create_random_media());
         return r;
+    }
+
+    std::shared_ptr<Media> create_random_media() const {
+        return std::make_shared<Song>("random song name here", 120, std::vector<std::string>());
     }
 
 
@@ -32,6 +36,9 @@ public:
         for (int i = 0; i < 10; ++i) {
             users.push_back(create_dummy_user());
         }
-        users.push_back(User("admin",dummy_password));
+        auto admin_user = User("admin",dummy_password);
+        admin_user.add_rating(create_dummy_rating());
+        admin_user.add_rating(create_dummy_rating());
+        users.push_back(admin_user);
     }
 };

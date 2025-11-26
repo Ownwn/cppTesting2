@@ -1,11 +1,14 @@
 #pragma once
 #include <iostream>
+#include <memory>
 #include <unordered_map>
+
+#include "media.h"
 #include "rating.h"
 
 class User {
 protected:
-	std::unordered_map<int, Rating> ratings {};
+	std::vector<Rating> ratings;
 	std::string_view username;
 	std::string_view password;
 public:
@@ -25,32 +28,29 @@ public:
 	std::string_view get_password() const {
 		return password;
 	}
-	User(const std::string_view name, std::unordered_map<int, Rating> ratings) {
+	User(const std::string_view name, const std::vector<Rating> &ratings) {
 		username = name;
 		this->ratings = ratings;
 	}
 
-	std::unordered_map<int, Rating> get_ratings() const {
+	[[nodiscard]] constexpr const std::vector<Rating>& get_ratings() const noexcept {
 		return ratings;
 	}
 
 	double average_rating() const {
 		if (ratings.size() == 0) {
-			throw std::invalid_argument("ratings is empty! cant calc avg");
+			return 0;
 		}
 		double res = 0;
-		for (auto r : ratings) {
-			res+= r.second.getValue();
+		for (auto& rating : ratings) {
+			res+= rating.getValue();
 		}
 		return res / ratings.size();
 
 	}
 
-	void add_rating(const int &i, const Rating &r) {
-		if (ratings.contains(i)) {
-			throw std::invalid_argument("rating already exists!");
-		}
-		ratings[i] = r;
+	void add_rating(const Rating &r) {
+		ratings.push_back(r);
 	}
 
 	bool has_ratings() const {
