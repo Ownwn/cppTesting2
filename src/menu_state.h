@@ -22,10 +22,11 @@ class MainMenu;
 class LogInMenu;
 class ProfileMenu;
 
+inline std::optional<User> current_user = std::nullopt;
+
 class MenuState{
     public:
         virtual void draw() = 0;
-        bool logged_in = false;
         ~MenuState(){
            // delete menu_state;
            // delete next_state;
@@ -94,8 +95,11 @@ class MainMenu : public MenuState{
             }
 
             if(ImGui::Button("View User Database")){
-                if(!logged_in){change_state<LogInMenu>();}
-                else {change_state<ProfileMenu>();}
+                if (current_user.has_value()) {
+                    change_state<ProfileMenu>();
+                } else {
+                    change_state<LogInMenu>();
+                }
             }
             ImGui::EndChild();
             ImGui::End();
@@ -112,11 +116,11 @@ class LogInMenu : public MenuState{
                 
             }
             create_spaces(10);
-            if(ImGui::InputText("Input Password",password_input_buffer,IM_ARRAYSIZE(password_input_buffer),true)){
-                for(User user : DataManager::users){
+            if(ImGui::InputText("Input Password",password_input_buffer,IM_ARRAYSIZE(password_input_buffer))){
+                for(User &user : DataManager::users){
                     if(username_input_buffer == user.get_name() && password_input_buffer == user.get_password()){
                         change_state<ProfileMenu>();
-                        logged_in = true;
+                        current_user = user;
                     }
                 }
             }
@@ -129,7 +133,11 @@ class LogInMenu : public MenuState{
 class ProfileMenu : public MenuState{
     public:
         void draw() override{
+            const auto current_user_description = current_user.transform([](const User &u) {
+                return u.get_name();
+            }).value_or("unknown user! How are you logged in?");
 
+            ImGui::Text("Logged in as %s", std::string(current_user_description).c_str());
         }
 };
 
